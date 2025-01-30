@@ -104,4 +104,3 @@ if st.button("🔎 Genera Ricetta"):
 
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
-
