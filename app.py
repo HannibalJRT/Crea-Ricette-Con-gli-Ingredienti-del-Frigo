@@ -1,98 +1,106 @@
 import streamlit as st
 import random
 
-# Funzione per calcolare la difficoltà della ricetta
-def calcola_difficolta(tempo_totale):
-    if tempo_totale < 15:
-        return "Facile"
-    elif 15 <= tempo_totale <= 30:
-        return "Medio"
+# Funktion zur Berechnung der Schwierigkeitsstufe
+def berechne_schwierigkeit(gesamtzeit):
+    if gesamtzeit < 15:
+        return "Einfach"
+    elif 15 <= gesamtzeit <= 30:
+        return "Mittel"
     else:
-        return "Difficile"
+        return "Schwierig"
 
-# Funzione per generare la ricetta base con gli ingredienti forniti dall'utente
-def genera_ricetta_base(ingredienti):
-    titolo_ricetta = f"Ricetta Originale con {', '.join(ingredienti)}"
+# Funktion zur Erstellung der ersten Rezeptvariante (nur mit Nutzereingaben)
+def generiere_basis_rezept(zutaten):
+    rezept_name = f"Original Rezept mit {', '.join(zutaten)}"
     
-    tempo_preparazione = random.randint(5, 15)
-    tempo_cottura = random.randint(10, 30)
-    tempo_totale = tempo_preparazione + tempo_cottura
-    difficolta = calcola_difficolta(tempo_totale)
+    vorbereitungszeit = random.randint(5, 15)
+    kochzeit = random.randint(10, 30)
+    gesamtzeit = vorbereitungszeit + kochzeit
+    schwierigkeitsgrad = berechne_schwierigkeit(gesamtzeit)
 
-    # Generazione delle quantità per ogni ingrediente
-    quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
+    # Generierung der Mengen für jede Zutat
+    mengen = {zutat: f"{random.randint(50, 300)}g" for zutat in zutaten}
 
-    istruzioni = [
-        f"🔹 **Passaggio 1:** Prepara tutti gli ingredienti: {', '.join(ingredienti)}. Lavali e tagliali se necessario. *(Tempo: {tempo_preparazione} minuti)*",
-        f"🔹 **Passaggio 2:** Scalda una padella con un cucchiaio di olio d'oliva. *(Tempo: 2 minuti)*",
-        f"🔹 **Passaggio 3:** Se hai carne o pesce, condiscilo con sale, pepe e spezie e cuocilo per 5-7 minuti per lato.",
-        f"🔹 **Passaggio 4:** Se hai riso o pasta, cuocili per {random.randint(8, 15)} minuti.",
-        f"🔹 **Passaggio 5:** Aggiungi le verdure e falle saltare per 3-5 minuti.",
-        f"🔹 **Passaggio 6:** Mescola bene tutti gli ingredienti, condisci a piacere e servi caldo. *(Tempo totale: {tempo_totale} minuti)*",
-        "🔹 **Passaggio 7:** Buon appetito! 🍽️"
+    anweisungen = [
+        f"🔹 **Schritt 1:** Bereite alle Zutaten vor: {', '.join(zutaten)}. Wasche und schneide sie nach Bedarf. *(Dauer: {vorbereitungszeit} Minuten)*",
+        f"🔹 **Schritt 2:** Erhitze eine Pfanne mit einem Esslöffel Olivenöl. *(Dauer: 2 Minuten)*",
+        f"🔹 **Schritt 3:** Falls du Fleisch oder Fisch hast, würze es mit Salz, Pfeffer und Gewürzen und brate es 5-7 Minuten pro Seite an.",
+        f"🔹 **Schritt 4:** Falls du Reis oder Nudeln hast, koche sie für {random.randint(8, 15)} Minuten.",
+        f"🔹 **Schritt 5:** Füge das Gemüse hinzu und brate es für weitere 3-5 Minuten.",
+        f"🔹 **Schritt 6:** Vermische alle Zutaten gut, würze nach Geschmack und serviere es warm. *(Gesamtzeit: {gesamtzeit} Minuten)*",
+        "🔹 **Schritt 7:** Guten Appetit! 🍽️"
     ]
 
-    # Generazione dei valori nutrizionali
-    valori_nutrizionali = {
-        "Calorie": random.randint(400, 800),
-        "Proteine": random.randint(30, 60),
-        "Grassi": random.randint(10, 30),
-        "Carboidrati": random.randint(40, 100),
-        "Fibre": random.randint(5, 15),
-        "Zuccheri": random.randint(2, 10),
-        "Sale": round(random.uniform(0.5, 2), 1)
+    # Generierung der Nährwerte
+    naehrwerte = {
+        "Kalorien": random.randint(400, 800),
+        "Eiweiß": random.randint(30, 60),
+        "Fett": random.randint(10, 30),
+        "Kohlenhydrate": random.randint(40, 100),
+        "Ballaststoffe": random.randint(5, 15),
+        "Zucker": random.randint(2, 10),
+        "Salz": round(random.uniform(0.5, 2), 1)
     }
 
-    return titolo_ricetta, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, istruzioni, valori_nutrizionali
+    return rezept_name, schwierigkeitsgrad, vorbereitungszeit, kochzeit, gesamtzeit, mengen, anweisungen, naehrwerte
 
-# Funzione per generare una versione migliorata della ricetta con ingredienti sostitutivi
-def genera_ricetta_migliorata(ingredienti):
-    sostituzioni = {
-        "latte": "latte di mandorla o soia",
-        "burro": "olio d'oliva o olio di cocco",
-        "zucchero": "miele o sciroppo d'acero",
-        "riso": "quinoa o couscous",
-        "carne": "tofu o lenticchie",
-        "pasta": "zucchine a spirale o pasta integrale"
+# Funktion zur Generierung der verbesserten Rezeptvariante mit Alternativen und Tipps
+def generiere_verbessertes_rezept(zutaten):
+    ersatz = {
+        "milch": "Mandelmilch oder Sojamilch",
+        "butter": "Olivenöl oder Kokosöl",
+        "zucker": "Honig oder Ahornsirup",
+        "reis": "Quinoa oder Couscous",
+        "fleisch": "Tofu oder Linsen",
+        "nudeln": "Zucchini-Nudeln oder Vollkornnudeln"
     }
     
-    ingredienti_migliorati = [sostituzioni.get(ingrediente, ingrediente) for ingrediente in ingredienti]
-
-    return genera_ricetta_base(ingredienti_migliorati)
+    verbesserte_zutaten = [ersatz.get(zutat, zutat) for zutat in zutaten]
+    
+    return generiere_basis_rezept(verbesserte_zutaten)
 
 # Streamlit UI
-st.title("🥗 Generatore di Ricette High-Protein per Atleti")
-st.write("Inserisci gli ingredienti che hai a disposizione:")
+st.title("🥗 High-Protein Rezept-Generator für Sportler")
+st.write("Gib die Zutaten ein, die du im Kühlschrank hast:")
 
-ingredienti_input = st.text_input("🔍 Inserisci gli ingredienti (separati da virgola)")
+zutaten_input = st.text_input("🔍 Zutaten eingeben (durch Komma getrennt)")
 
-if st.button("🔎 Genera Ricetta"):
-    if ingredienti_input:
-        lista_ingredienti = [i.strip().lower() for i in ingredienti_input.split(",")]
+if st.button("🔎 Rezept generieren"):
+    if zutaten_input:
+        zutaten_liste = [z.strip().lower() for z in zutaten_input.split(",")]
 
-        # Genera Ricetta Base
-        titolo_base, difficolta_base, tempo_preparazione_base, tempo_cottura_base, tempo_totale_base, quantita_base, istruzioni_base, valori_base = genera_ricetta_base(lista_ingredienti)
+        # Generiere Original-Rezept
+        rezept_titel, schwierigkeitsgrad, vorbereitungszeit, kochzeit, gesamtzeit, mengen, anweisungen, naehrwerte = generiere_basis_rezept(zutaten_liste)
 
-        # Genera Ricetta Migliorata
-        titolo_migliorata, difficolta_migliorata, tempo_preparazione_migliorata, tempo_cottura_migliorata, tempo_totale_migliorata, quantita_migliorata, istruzioni_migliorata, valori_migliorata = genera_ricetta_migliorata(lista_ingredienti)
+        # Generiere Verbesserte Rezeptversion
+        verbessertes_rezept_titel, verbessert_schwierigkeitsgrad, verbessert_vorbereitungszeit, verbessert_kochzeit, verbessert_gesamtzeit, verbesserte_mengen, verbesserte_anweisungen, verbesserte_naehrwerte = generiere_verbessertes_rezept(zutaten_liste)
 
-        # Mostra Ricetta Base
-        st.subheader(f"🍽️ **{titolo_base}**")
-        st.write(f"⏳ **Preparazione:** {tempo_preparazione_base} min | 🔥 **Cottura:** {tempo_cottura_base} min | ⭐ **Difficoltà:** {difficolta_base}")
-        st.subheader("📌 **Ingredienti:**")
-        for ingrediente, quantita in quantita_base.items():
-            st.write(f"- {ingrediente.capitalize()}: {quantita}")
-        st.subheader("📌 **Preparazione:**")
-        for passo in istruzioni_base:
-            st.write(passo)
-        st.subheader("🔥 **Valori Nutrizionali:**")
-        for chiave, valore in valori_base.items():
-            st.write(f"- **{chiave}**: {valore}")
+        # Zeige Original-Rezept
+        st.subheader(f"🍽️ **{rezept_titel}**")
+        st.write(f"⏳ **Vorbereitungszeit:** {vorbereitungszeit} Minuten | 🔥 **Kochzeit:** {kochzeit} Minuten | ⭐ **Schwierigkeit:** {schwierigkeitsgrad}")
+        st.subheader("📌 **Zutaten:**")
+        for zutat, menge in mengen.items():
+            st.write(f"- {zutat.capitalize()}: {menge}")
+        st.subheader("📌 **Zubereitung:**")
+        for schritt in anweisungen:
+            st.write(schritt)
+        st.subheader("🔥 **Nährwerte pro Portion:**")
+        for key, value in naehrwerte.items():
+            st.write(f"- **{key}**: {value}")
 
-        # Mostra Ricetta Migliorata
-        st.subheader(f"✨ **{titolo_migliorata} (Versione Migliorata)**")
-        st.write(f"⏳ **Preparazione:** {tempo_preparazione_migliorata} min | 🔥 **Cottura:** {tempo_cottura_migliorata} min | ⭐ **Difficoltà:** {difficolta_migliorata}")
+        # Zeige Verbesserte Version
+        st.subheader(f"✨ **{verbessertes_rezept_titel} (Optimierte Version)**")
+        st.write(f"⏳ **Vorbereitungszeit:** {verbessert_vorbereitungszeit} Minuten | 🔥 **Kochzeit:** {verbessert_kochzeit} Minuten | ⭐ **Schwierigkeit:** {verbessert_schwierigkeitsgrad}")
+        st.subheader("📌 **Zutaten (mit Verbesserungen):**")
+        for zutat, menge in verbesserte_mengen.items():
+            st.write(f"- {zutat.capitalize()}: {menge}")
+        st.subheader("📌 **Zubereitung:**")
+        for schritt in verbesserte_anweisungen:
+            st.write(schritt)
+        st.subheader("🔥 **Nährwerte pro Portion:**")
+        for key, value in verbesserte_naehrwerte.items():
+            st.write(f"- **{key}**: {value}")
 
     else:
-        st.warning("Inserisci gli ingredienti per generare una ricetta.")
-
+        st.warning("Bitte Zutaten eingeben, um ein Rezept zu generieren.")
