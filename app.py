@@ -10,9 +10,9 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per generare la ricetta base con gli ingredienti forniti dall'utente
+# Funzione per generare la ricetta base SOLO con gli ingredienti forniti dall'utente
 def genera_ricetta_base(ingredienti):
-    titolo_ricetta = f"Ricetta Originale con {', '.join(ingredienti)}"
+    titolo_ricetta = f"Ricetta con {', '.join(ingredienti)}"
     
     tempo_preparazione = random.randint(5, 15)
     tempo_cottura = random.randint(10, 30)
@@ -22,14 +22,14 @@ def genera_ricetta_base(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
+    # Generazione delle istruzioni con SOLO gli ingredienti forniti dall'utente
     istruzioni = [
         f"🔹 **Passaggio 1:** Prepara tutti gli ingredienti: {', '.join(ingredienti)}. Lavali e tagliali se necessario. *(Tempo: {tempo_preparazione} minuti)*",
         f"🔹 **Passaggio 2:** Scalda una padella con un cucchiaio di olio d'oliva. *(Tempo: 2 minuti)*",
-        f"🔹 **Passaggio 3:** Se hai carne o pesce, condiscilo con sale, pepe e spezie e cuocilo per 5-7 minuti per lato.",
-        f"🔹 **Passaggio 4:** Se hai riso o pasta, cuocili per {random.randint(8, 15)} minuti.",
-        f"🔹 **Passaggio 5:** Aggiungi le verdure e falle saltare per 3-5 minuti.",
-        f"🔹 **Passaggio 6:** Mescola bene tutti gli ingredienti, condisci a piacere e servi caldo. *(Tempo totale: {tempo_totale} minuti)*",
-        "🔹 **Passaggio 7:** Buon appetito! 🍽️"
+        f"🔹 **Passaggio 3:** Cuoci i seguenti ingredienti: {', '.join(ingredienti)} secondo il metodo più adatto.",
+        f"🔹 **Passaggio 4:** Se necessario, mescola gli ingredienti e fai cuocere ancora qualche minuto.",
+        f"🔹 **Passaggio 5:** Impiatta e servi caldo. *(Tempo totale: {tempo_totale} minuti)*",
+        "🔹 **Passaggio 6:** Buon appetito! 🍽️"
     ]
 
     # Generazione dei valori nutrizionali
@@ -45,18 +45,19 @@ def genera_ricetta_base(ingredienti):
 
     return titolo_ricetta, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, istruzioni, valori_nutrizionali
 
-# Funzione per generare una versione migliorata della ricetta con ingredienti sostitutivi
+# Funzione per generare la ricetta migliorata con VARIANTI (pesce, carne, pane)
 def genera_ricetta_migliorata(ingredienti):
-    sostituzioni = {
-        "latte": "latte di mandorla o soia",
-        "burro": "olio d'oliva o olio di cocco",
-        "zucchero": "miele o sciroppo d'acero",
-        "riso": "quinoa o couscous",
-        "carne": "tofu o lenticchie",
-        "pasta": "zucchine a spirale o pasta integrale"
+    varianti = {
+        "pesce": "filetto di salmone o merluzzo",
+        "carne": "petto di pollo o manzo",
+        "pane": "pane integrale o crostini"
     }
-    
-    ingredienti_migliorati = [sostituzioni.get(ingrediente, ingrediente) for ingrediente in ingredienti]
+
+    ingredienti_migliorati = ingredienti.copy()
+
+    for chiave, valore in varianti.items():
+        if chiave not in ingredienti:
+            ingredienti_migliorati.append(valore)
 
     return genera_ricetta_base(ingredienti_migliorati)
 
@@ -73,7 +74,7 @@ if st.button("🔎 Genera Ricetta"):
         # Genera Ricetta Base
         titolo_base, difficolta_base, tempo_preparazione_base, tempo_cottura_base, tempo_totale_base, quantita_base, istruzioni_base, valori_base = genera_ricetta_base(lista_ingredienti)
 
-        # Genera Ricetta Migliorata
+        # Genera Ricetta Migliorata con Varianti
         titolo_migliorata, difficolta_migliorata, tempo_preparazione_migliorata, tempo_cottura_migliorata, tempo_totale_migliorata, quantita_migliorata, istruzioni_migliorata, valori_migliorata = genera_ricetta_migliorata(lista_ingredienti)
 
         # Mostra Ricetta Base
@@ -89,8 +90,8 @@ if st.button("🔎 Genera Ricetta"):
         for chiave, valore in valori_base.items():
             st.write(f"- **{chiave}**: {valore}")
 
-        # Mostra Ricetta Migliorata
-        st.subheader(f"✨ **{titolo_migliorata} (Versione Migliorata)**")
+        # Mostra Ricetta Migliorata con Varianti
+        st.subheader(f"✨ **{titolo_migliorata} (Versione Migliorata con Varianti)**")
         st.write(f"⏳ **Preparazione:** {tempo_preparazione_migliorata} min | 🔥 **Cottura:** {tempo_cottura_migliorata} min | ⭐ **Difficoltà:** {difficolta_migliorata}")
         st.subheader("📌 **Ingredienti:**")
         for ingrediente, quantita in quantita_migliorata.items():
@@ -104,3 +105,4 @@ if st.button("🔎 Genera Ricetta"):
 
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
+
