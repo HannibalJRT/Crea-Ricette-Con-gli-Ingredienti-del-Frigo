@@ -10,6 +10,55 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
+# Funzione per definire il metodo di cottura in base all'ingrediente
+def metodo_cottura(ingrediente):
+    cotture = {
+        "carne": "Griglia la carne per 5-7 minuti per lato su una padella calda.",
+        "pesce": "Cuoci il pesce al vapore per 10 minuti oppure scottalo in padella per 4-5 minuti per lato.",
+        "riso": "Cuoci il riso in acqua bollente per 12 minuti, scolalo e lascialo riposare per 2 minuti.",
+        "pasta": "Cuoci la pasta in acqua salata bollente per il tempo indicato sulla confezione.",
+        "avocado": "Schiaccia l'avocado con un po' di succo di limone e sale per creare una crema gustosa.",
+        "radicchio": "Taglia il radicchio a listarelle e saltalo in padella con un filo d’olio per 3 minuti.",
+        "noci": "Trita le noci e aggiungile come topping croccante sul piatto finale.",
+        "pane": "Tosta il pane su una griglia o in forno per 3 minuti fino a doratura."
+    }
+    return cotture.get(ingrediente, f"Taglia e prepara {ingrediente} come preferisci.")
+
+# Funzione per generare la ricetta base SOLO con gli ingredienti forniti dall'utente
+def genera_ricetta_base(ingredienti):
+    titolo_ricetta = f"Ricetta con {', '.join(ingredienti)}"
+    
+    tempo_preparazione = random.randint(5, 15)
+    tempo_cottura = random.randint(10, 30)
+    tempo_totale = tempo_preparazione + tempo_cottura
+    difficolta = calcola_difficolta(tempo_totale)
+
+    # Generazione delle quantità per ogni ingrediente
+    quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
+
+    # Generazione delle istruzioni dettagliate con metodi di cottura reali
+    istruzioni = [
+        f"🔹 **Passaggio 1:** Prepara gli ingredienti: {', '.join(ingredienti)}. Lavali e tagliali se necessario. *(Tempo: {tempo_preparazione} minuti)*",
+        f"🔹 **Passaggio 2:** Scalda una padella con un cucchiaio di olio d'oliva. *(Tempo: 2 minuti)*",
+    ]
+
+    for ingrediente in ingredienti:
+        istruzioni.append(f"🔹 **Passaggio {len(istruzioni)}:** {metodo_cottura(ingrediente)}")
+
+    istruzioni.append(f"🔹 **Passaggio {len(istruzioni) + 1}:** Mescola gli ingredienti nel piatto e servi caldo. *(Tempo totale: {tempo_totale} minuti)*")
+    istruzioni.append("🔹 **Passaggio finale:** Buon appet
+
+import random
+
+# Funzione per calcolare la difficoltà della ricetta
+def calcola_difficolta(tempo_totale):
+    if tempo_totale < 15:
+        return "Facile"
+    elif 15 <= tempo_totale <= 30:
+        return "Medio"
+    else:
+        return "Difficile"
+
 # Funzione per generare la ricetta base SOLO con gli ingredienti forniti dall'utente
 def genera_ricetta_base(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti)}"
