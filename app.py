@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# Funzione per calcolare la difficoltà in base al tempo totale
+# Funzione per calcolare la difficoltà della ricetta
 def calcola_difficolta(tempo_totale):
     if tempo_totale < 15:
         return "Facile"
@@ -13,7 +13,7 @@ def calcola_difficolta(tempo_totale):
 # Lista di ingredienti che non devono essere lavati
 ingredienti_non_lavabili = ["pasta", "riso", "formaggio", "ricotta", "pecorino", "parmigiano", "guanciale", "pesto"]
 
-# Funzione per generare una ricetta ben strutturata
+# Funzione per generare una ricetta dettagliata e coerente
 def genera_ricetta(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     
@@ -25,10 +25,10 @@ def genera_ricetta(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
-    # Struttura della preparazione dettagliata e logica
+    # Creazione della preparazione dettagliata
     preparazione = []
 
-    # Controllo se gli ingredienti necessitano di lavaggio
+    # Se nessun ingrediente va lavato, omette questa parte
     if any(ingr not in ingredienti_non_lavabili for ingr in ingredienti):
         preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Laviamo e prepariamo gli ingredienti prima di iniziare la cottura.")
     else:
@@ -43,6 +43,9 @@ def genera_ricetta(ingredienti):
     if "ragù pomodoro" in ingredienti:
         preparazione.append("In una padella, scaldiamo un filo d'olio e aggiungiamo il ragù di pomodoro. Lasciamolo cuocere a fuoco basso per circa 10 minuti, mescolando per far amalgamare i sapori.")
 
+    if "guanciale" in ingredienti:
+        preparazione.append("Tagliamo il guanciale a striscioline sottili e lo mettiamo in una padella senza olio. Accendiamo il fuoco medio e lasciamo che il grasso si sciolga, facendo rosolare il guanciale fino a renderlo croccante. Mettiamo da parte.")
+
     if "carne" in ingredienti:
         preparazione.append("Tagliamo la carne a cubetti e condiamola con sale, pepe e spezie a piacere. Scaldiamo una padella con un filo d’olio e cuociamo la carne per circa 7-10 minuti fino a doratura.")
 
@@ -51,6 +54,9 @@ def genera_ricetta(ingredienti):
 
     if "radicchio" in ingredienti or "verdure" in ingredienti:
         preparazione.append("Tagliamo il radicchio e le verdure a strisce sottili. Le saltiamo in padella con un filo d'olio d'oliva per 5 minuti a fuoco medio, fino a quando saranno morbide ma ancora croccanti.")
+
+    if "pecorino romano" in ingredienti:
+        preparazione.append("Una volta pronta la pasta, la scoliamo e la mescoliamo direttamente nella padella con il ragù, aggiungendo il pecorino romano grattugiato e mescolando bene per amalgamare i sapori.")
 
     if "noci" in ingredienti:
         preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per esaltare il loro aroma e renderle croccanti.")
@@ -99,3 +105,4 @@ if st.button("🔎 Genera Ricetta"):
 
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
+
