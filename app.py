@@ -10,9 +10,6 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Lista di ingredienti che non devono essere lavati
-ingredienti_non_lavabili = ["pasta", "riso", "formaggio", "ricotta", "pecorino", "parmigiano", "guanciale", "pesto"]
-
 # Funzione per generare una ricetta dettagliata e coerente
 def genera_ricetta(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
@@ -27,12 +24,8 @@ def genera_ricetta(ingredienti):
 
     # Creazione della preparazione dettagliata
     preparazione = []
-
-    # Se nessun ingrediente va lavato, omette questa parte
-    if any(ingr not in ingredienti_non_lavabili for ingr in ingredienti):
-        preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Laviamo e prepariamo gli ingredienti prima di iniziare la cottura.")
-    else:
-        preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Prepariamo tutti gli ingredienti necessari.")
+    
+    preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Assicuriamoci di avere tutto pronto prima di iniziare.")
 
     if "pasta" in ingredienti or "spaghetti" in ingredienti:
         preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata. Aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
@@ -45,15 +38,6 @@ def genera_ricetta(ingredienti):
 
     if "guanciale" in ingredienti:
         preparazione.append("Tagliamo il guanciale a striscioline sottili e lo mettiamo in una padella senza olio. Accendiamo il fuoco medio e lasciamo che il grasso si sciolga, facendo rosolare il guanciale fino a renderlo croccante. Mettiamo da parte.")
-
-    if "carne" in ingredienti:
-        preparazione.append("Tagliamo la carne a cubetti e condiamola con sale, pepe e spezie a piacere. Scaldiamo una padella con un filo d’olio e cuociamo la carne per circa 7-10 minuti fino a doratura.")
-
-    if "pesce" in ingredienti:
-        preparazione.append("Condiamo il pesce con sale, pepe e limone. Lo cuociamo in padella con un filo d'olio per circa 4-5 minuti per lato o al forno a 180°C per 15 minuti.")
-
-    if "radicchio" in ingredienti or "verdure" in ingredienti:
-        preparazione.append("Tagliamo il radicchio e le verdure a strisce sottili. Le saltiamo in padella con un filo d'olio d'oliva per 5 minuti a fuoco medio, fino a quando saranno morbide ma ancora croccanti.")
 
     if "pecorino romano" in ingredienti:
         preparazione.append("Una volta pronta la pasta, la scoliamo e la mescoliamo direttamente nella padella con il ragù, aggiungendo il pecorino romano grattugiato e mescolando bene per amalgamare i sapori.")
@@ -77,6 +61,16 @@ def genera_ricetta(ingredienti):
 
     return titolo_ricetta, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori_nutrizionali
 
+# Funzione per generare una variante con un tocco magico
+def genera_ricetta_migliorata(ingredienti):
+    ingredienti_migliorati = ingredienti.copy()
+    
+    # Aggiunge un tocco magico
+    tocco_magico = ["una spolverata di pepe nero", "un pizzico di peperoncino", "un filo d’olio al tartufo", "una manciata di prezzemolo fresco"]
+    extra = random.choice(tocco_magico)
+
+    return genera_ricetta(ingredienti_migliorati) + (extra,)
+
 # Streamlit UI
 st.title("🥗 Generatore di Ricette High-Protein per Atleti")
 st.write("Inserisci gli ingredienti che hai a disposizione:")
@@ -89,6 +83,9 @@ if st.button("🔎 Genera Ricetta"):
 
         # Genera Ricetta Base
         titolo_base, difficolta_base, tempo_preparazione_base, tempo_cottura_base, tempo_totale_base, quantita_base, istruzioni_base, valori_base = genera_ricetta(lista_ingredienti)
+
+        # Genera Ricetta Migliorata con un tocco in più
+        titolo_variante, difficolta_variante, tempo_preparazione_variante, tempo_cottura_variante, tempo_totale_variante, quantita_variante, istruzioni_variante, valori_variante, extra_variante = genera_ricetta_migliorata(lista_ingredienti)
 
         # Mostra Ricetta Base
         st.subheader(f"🍽️ **{titolo_base}**")
@@ -103,6 +100,11 @@ if st.button("🔎 Genera Ricetta"):
         for chiave, valore in valori_base.items():
             st.write(f"- **{chiave}**: {valore}")
 
+        # Mostra Ricetta Migliorata
+        st.subheader(f"✨ **{titolo_variante} (Variante con Tocco Magico)**")
+        for passo in istruzioni_variante:
+            st.write(passo)
+        st.write(f"👉 **Tocco Magico:** {extra_variante}")
+
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
-
