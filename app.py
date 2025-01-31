@@ -10,9 +10,20 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per creare una ricetta dettagliata e fluida
+# Funzione per classificare la ricetta in base agli ingredienti
+def classifica_ricetta(ingredienti):
+    if "pasta" in ingredienti or "spaghetti" in ingredienti or "riso" in ingredienti:
+        return "Primo Piatto"
+    elif "carne" in ingredienti or "pesce" in ingredienti:
+        return "Secondo Piatto"
+    elif "radicchio" in ingredienti or "verdure" in ingredienti or "noci" in ingredienti:
+        return "Insalata Proteica"
+    else:
+        return "Piatto Creativo"
+
+# Funzione per creare una ricetta ben strutturata
 def genera_ricetta(ingredienti):
-    titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
+    titolo_ricetta = f"Ricetta: {classifica_ricetta(ingredienti)} con {', '.join(ingredienti).capitalize()}"
     
     tempo_preparazione = random.randint(5, 15)
     tempo_cottura = random.randint(10, 30)
@@ -22,33 +33,36 @@ def genera_ricetta(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
-    # Struttura della preparazione fluida e ben descritta
+    # Struttura della preparazione dettagliata
     preparazione = []
     
-    preparazione.append(f"Per iniziare, raccogli tutti gli ingredienti necessari: {', '.join(ingredienti)}. Se necessario, lavali accuratamente e procedi al taglio per facilitarne la cottura.")
-    
-    if "carne" in ingredienti:
-        preparazione.append("Se hai scelto la carne, tagliala a cubetti e condiscila con sale, pepe e spezie a piacere. Scalda una padella con un filo d'olio e cuocila a fuoco medio per circa 7-10 minuti, mescolando di tanto in tanto per una doratura uniforme.")
+    preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Laviamo e prepariamo tutti gli ingredienti prima di iniziare la cottura.")
 
-    if "pesce" in ingredienti:
-        preparazione.append("Se hai optato per il pesce, insaporiscilo con un pizzico di sale, pepe e qualche goccia di limone. Cuocilo in una padella antiaderente con un filo d'olio per circa 4-5 minuti per lato, fino a quando la carne risulterà tenera e leggermente croccante all'esterno.")
+    if "spaghetti" in ingredienti or "pasta" in ingredienti:
+        preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata. Aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
 
     if "riso" in ingredienti:
-        preparazione.append("Per la preparazione del riso, porta a ebollizione 500ml di acqua salata e aggiungi il riso. Lascia cuocere a fuoco medio per circa 12 minuti, mescolando di tanto in tanto. Una volta pronto, scolalo e lascialo riposare per un paio di minuti prima di servirlo.")
+        preparazione.append("In un pentolino, portiamo a ebollizione 500ml di acqua salata. Aggiungiamo il riso e cuociamo a fuoco medio per circa 12 minuti, mescolando di tanto in tanto.")
 
-    if "pasta" in ingredienti:
-        preparazione.append("Se hai deciso di usare la pasta, riempi una pentola con abbondante acqua salata e portala a ebollizione. Aggiungi la pasta e cuocila secondo il tempo indicato sulla confezione, mescolando occasionalmente per evitare che si attacchi. Una volta cotta, scolala e tienila da parte.")
+    if "ragù pomodoro" in ingredienti:
+        preparazione.append("In una padella, scaldiamo un filo d'olio e aggiungiamo il ragù di pomodoro. Lasciamolo cuocere a fuoco basso per circa 10 minuti, mescolando per far amalgamare i sapori.")
 
-    if "radicchio" in ingredienti or "zucchine" in ingredienti or "verdure" in ingredienti:
-        preparazione.append("Le verdure possono essere tagliate a fettine sottili e saltate in padella con un filo d'olio d'oliva. Cuocile per circa 5 minuti a fuoco medio, fino a quando diventano tenere ma ancora croccanti. Se preferisci, puoi grigliarle per un sapore più intenso.")
+    if "carne" in ingredienti:
+        preparazione.append("Tagliamo la carne a cubetti e condiamola con sale, pepe e spezie a piacere. Scaldiamo una padella con un filo d’olio e cuociamo la carne per circa 7-10 minuti fino a doratura.")
 
-    if "avocado" in ingredienti:
-        preparazione.append("Se hai un avocado, taglialo a metà e rimuovi il nocciolo. Schiaccia la polpa con una forchetta e aggiungi un pizzico di sale, qualche goccia di limone e una spolverata di pepe. Questa crema di avocado è perfetta per accompagnare il piatto.")
+    if "pesce" in ingredienti:
+        preparazione.append("Condiamo il pesce con sale, pepe e limone. Lo cuociamo in padella con un filo d'olio per circa 4-5 minuti per lato o al forno a 180°C per 15 minuti.")
+
+    if "radicchio" in ingredienti or "verdure" in ingredienti:
+        preparazione.append("Tagliamo il radicchio e le verdure a strisce sottili. Le saltiamo in padella con un filo d'olio d'oliva per 5 minuti a fuoco medio, fino a quando saranno morbide ma ancora croccanti.")
+
+    if "pecorino romano" in ingredienti and "spaghetti" in ingredienti:
+        preparazione.append("Una volta scolata la pasta, la condiamo direttamente nella padella con il ragù, aggiungendo il pecorino romano grattugiato e mescolando bene per amalgamare il tutto.")
 
     if "noci" in ingredienti:
-        preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per evitare che si brucino. Questo passaggio aiuta a esaltare il loro sapore e a renderle ancora più croccanti.")
+        preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per esaltare il loro aroma e renderle croccanti.")
 
-    preparazione.append(f"Una volta che tutti gli ingredienti sono pronti, impiatta il tutto con cura e servi il piatto caldo. *(Tempo totale: {tempo_totale} minuti)*")
+    preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. *(Tempo totale: {tempo_totale} minuti)*")
     preparazione.append("Buon appetito! 🍽️")
 
     # Generazione dei valori nutrizionali
@@ -63,22 +77,6 @@ def genera_ricetta(ingredienti):
     }
 
     return titolo_ricetta, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori_nutrizionali
-
-# Funzione per creare la variante con ingredienti extra
-def genera_ricetta_migliorata(ingredienti):
-    varianti = {
-        "pesce": "filetto di salmone",
-        "carne": "petto di pollo",
-        "pane": "pane integrale tostato"
-    }
-
-    ingredienti_migliorati = ingredienti.copy()
-
-    for chiave, valore in varianti.items():
-        if chiave not in ingredienti:
-            ingredienti_migliorati.append(valore)
-
-    return genera_ricetta(ingredienti_migliorati)
 
 # Streamlit UI
 st.title("🥗 Generatore di Ricette High-Protein per Atleti")
@@ -108,3 +106,4 @@ if st.button("🔎 Genera Ricetta"):
 
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
+
