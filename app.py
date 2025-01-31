@@ -10,7 +10,7 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per creare una ricetta realistica basata sugli ingredienti forniti
+# Funzione per creare una ricetta dettagliata e fluida
 def genera_ricetta(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     
@@ -22,34 +22,34 @@ def genera_ricetta(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
-    # Preparazione dettagliata basata sugli ingredienti forniti
-    preparazione = [f"🔹 **Passaggio 1:** Prepara gli ingredienti: {', '.join(ingredienti)}."]
-    preparazione.append("🔹 **Passaggio 2:** Lava e taglia gli ingredienti se necessario.")
+    # Struttura della preparazione fluida e ben descritta
+    preparazione = []
+    
+    preparazione.append(f"Per iniziare, raccogli tutti gli ingredienti necessari: {', '.join(ingredienti)}. Se necessario, lavali accuratamente e procedi al taglio per facilitarne la cottura.")
     
     if "carne" in ingredienti:
-        preparazione.append("🔹 **Passaggio 3:** Taglia la carne a cubetti e marinala con sale, pepe e spezie a piacere.")
-        preparazione.append("🔹 **Passaggio 4:** Scalda una padella con un filo d'olio e cuoci la carne per 7-10 minuti fino a doratura.")
+        preparazione.append("Se hai scelto la carne, tagliala a cubetti e condiscila con sale, pepe e spezie a piacere. Scalda una padella con un filo d'olio e cuocila a fuoco medio per circa 7-10 minuti, mescolando di tanto in tanto per una doratura uniforme.")
 
     if "pesce" in ingredienti:
-        preparazione.append("🔹 **Passaggio 5:** Condisci il pesce con sale, pepe e limone e cuocilo in padella per 4-5 minuti per lato.")
+        preparazione.append("Se hai optato per il pesce, insaporiscilo con un pizzico di sale, pepe e qualche goccia di limone. Cuocilo in una padella antiaderente con un filo d'olio per circa 4-5 minuti per lato, fino a quando la carne risulterà tenera e leggermente croccante all'esterno.")
 
     if "riso" in ingredienti:
-        preparazione.append("🔹 **Passaggio 6:** Porta a ebollizione 500ml di acqua salata, aggiungi il riso e cuoci per 12 minuti. Scola e lascia riposare.")
+        preparazione.append("Per la preparazione del riso, porta a ebollizione 500ml di acqua salata e aggiungi il riso. Lascia cuocere a fuoco medio per circa 12 minuti, mescolando di tanto in tanto. Una volta pronto, scolalo e lascialo riposare per un paio di minuti prima di servirlo.")
 
     if "pasta" in ingredienti:
-        preparazione.append("🔹 **Passaggio 7:** Porta a ebollizione abbondante acqua salata e cuoci la pasta per il tempo indicato sulla confezione.")
+        preparazione.append("Se hai deciso di usare la pasta, riempi una pentola con abbondante acqua salata e portala a ebollizione. Aggiungi la pasta e cuocila secondo il tempo indicato sulla confezione, mescolando occasionalmente per evitare che si attacchi. Una volta cotta, scolala e tienila da parte.")
 
-    if "verdure" in ingredienti or "radicchio" in ingredienti or "zucchine" in ingredienti:
-        preparazione.append("🔹 **Passaggio 8:** Taglia le verdure a fettine sottili e saltale in padella con olio d'oliva per 5 minuti.")
+    if "radicchio" in ingredienti or "zucchine" in ingredienti or "verdure" in ingredienti:
+        preparazione.append("Le verdure possono essere tagliate a fettine sottili e saltate in padella con un filo d'olio d'oliva. Cuocile per circa 5 minuti a fuoco medio, fino a quando diventano tenere ma ancora croccanti. Se preferisci, puoi grigliarle per un sapore più intenso.")
 
     if "avocado" in ingredienti:
-        preparazione.append("🔹 **Passaggio 9:** Schiaccia l’avocado con una forchetta, aggiungendo sale, limone e pepe.")
+        preparazione.append("Se hai un avocado, taglialo a metà e rimuovi il nocciolo. Schiaccia la polpa con una forchetta e aggiungi un pizzico di sale, qualche goccia di limone e una spolverata di pepe. Questa crema di avocado è perfetta per accompagnare il piatto.")
 
     if "noci" in ingredienti:
-        preparazione.append("🔹 **Passaggio 10:** Tosta leggermente le noci in padella per 2-3 minuti per esaltarne il sapore.")
+        preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per evitare che si brucino. Questo passaggio aiuta a esaltare il loro sapore e a renderle ancora più croccanti.")
 
-    preparazione.append(f"🔹 **Passaggio 11:** Impiatta tutti gli ingredienti e servi caldo. *(Tempo totale: {tempo_totale} minuti)*")
-    preparazione.append("🔹 **Passaggio 12:** Buon appetito! 🍽️")
+    preparazione.append(f"Una volta che tutti gli ingredienti sono pronti, impiatta il tutto con cura e servi il piatto caldo. *(Tempo totale: {tempo_totale} minuti)*")
+    preparazione.append("Buon appetito! 🍽️")
 
     # Generazione dei valori nutrizionali
     valori_nutrizionali = {
@@ -93,9 +93,6 @@ if st.button("🔎 Genera Ricetta"):
         # Genera Ricetta Base
         titolo_base, difficolta_base, tempo_preparazione_base, tempo_cottura_base, tempo_totale_base, quantita_base, istruzioni_base, valori_base = genera_ricetta(lista_ingredienti)
 
-        # Genera Ricetta Migliorata con Varianti
-        titolo_migliorata, difficolta_migliorata, tempo_preparazione_migliorata, tempo_cottura_migliorata, tempo_totale_migliorata, quantita_migliorata, istruzioni_migliorata, valori_migliorata = genera_ricetta_migliorata(lista_ingredienti)
-
         # Mostra Ricetta Base
         st.subheader(f"🍽️ **{titolo_base}**")
         st.write(f"⏳ **Preparazione:** {tempo_preparazione_base} min | 🔥 **Cottura:** {tempo_cottura_base} min | ⭐ **Difficoltà:** {difficolta_base}")
@@ -108,11 +105,6 @@ if st.button("🔎 Genera Ricetta"):
         st.subheader("🔥 **Valori Nutrizionali:**")
         for chiave, valore in valori_base.items():
             st.write(f"- **{chiave}**: {valore}")
-
-        # Mostra Ricetta Migliorata con Varianti
-        st.subheader(f"✨ **{titolo_migliorata} (Versione Migliorata con Varianti)**")
-        for passo in istruzioni_migliorata:
-            st.write(passo)
 
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
