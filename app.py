@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# Funzione per calcolare la difficoltà della ricetta
+# Funzione per calcolare la difficoltà in base al tempo totale
 def calcola_difficolta(tempo_totale):
     if tempo_totale < 15:
         return "Facile"
@@ -10,7 +10,7 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per creare una ricetta realistica basata sugli ingredienti
+# Funzione per creare una ricetta realistica basata sugli ingredienti forniti
 def genera_ricetta(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     
@@ -22,36 +22,34 @@ def genera_ricetta(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
-    # Generazione della preparazione dettagliata
+    # Preparazione dettagliata basata sugli ingredienti forniti
     preparazione = [f"🔹 **Passaggio 1:** Prepara gli ingredienti: {', '.join(ingredienti)}."]
+    preparazione.append("🔹 **Passaggio 2:** Lava e taglia gli ingredienti se necessario.")
     
-    if "pollo" in ingredienti or "carne" in ingredienti:
-        preparazione.append("🔹 **Passaggio 2:** Taglia la carne a cubetti e marinala con sale, pepe e spezie a piacere.")
-        preparazione.append("🔹 **Passaggio 3:** Scalda una padella con un filo d'olio e cuoci il pollo per 7-10 minuti fino a doratura.")
+    if "carne" in ingredienti:
+        preparazione.append("🔹 **Passaggio 3:** Taglia la carne a cubetti e marinala con sale, pepe e spezie a piacere.")
+        preparazione.append("🔹 **Passaggio 4:** Scalda una padella con un filo d'olio e cuoci la carne per 7-10 minuti fino a doratura.")
 
     if "pesce" in ingredienti:
-        preparazione.append("🔹 **Passaggio 2:** Condisci il pesce con sale, pepe e limone e cuocilo in padella per 4-5 minuti per lato.")
+        preparazione.append("🔹 **Passaggio 5:** Condisci il pesce con sale, pepe e limone e cuocilo in padella per 4-5 minuti per lato.")
 
     if "riso" in ingredienti:
-        preparazione.append("🔹 **Passaggio 4:** Porta a ebollizione 500ml di acqua salata, aggiungi il riso e cuoci per 12 minuti. Scola e lascia riposare.")
+        preparazione.append("🔹 **Passaggio 6:** Porta a ebollizione 500ml di acqua salata, aggiungi il riso e cuoci per 12 minuti. Scola e lascia riposare.")
 
     if "pasta" in ingredienti:
-        preparazione.append("🔹 **Passaggio 5:** Porta a ebollizione abbondante acqua salata e cuoci la pasta per il tempo indicato sulla confezione.")
+        preparazione.append("🔹 **Passaggio 7:** Porta a ebollizione abbondante acqua salata e cuoci la pasta per il tempo indicato sulla confezione.")
 
-    if "verdure" in ingredienti or "finocchio" in ingredienti or "zucchine" in ingredienti:
-        preparazione.append("🔹 **Passaggio 6:** Taglia le verdure a fettine sottili e saltale in padella con olio d'oliva per 5 minuti.")
+    if "verdure" in ingredienti or "radicchio" in ingredienti or "zucchine" in ingredienti:
+        preparazione.append("🔹 **Passaggio 8:** Taglia le verdure a fettine sottili e saltale in padella con olio d'oliva per 5 minuti.")
 
-    if "burro" in ingredienti:
-        preparazione.append("🔹 **Passaggio 7:** Sciogli il burro in padella a fuoco basso e usalo per insaporire gli altri ingredienti.")
+    if "avocado" in ingredienti:
+        preparazione.append("🔹 **Passaggio 9:** Schiaccia l’avocado con una forchetta, aggiungendo sale, limone e pepe.")
 
-    if "pane" in ingredienti:
-        preparazione.append("🔹 **Passaggio 8:** Tosta il pane in forno per 5 minuti o in padella fino a doratura.")
+    if "noci" in ingredienti:
+        preparazione.append("🔹 **Passaggio 10:** Tosta leggermente le noci in padella per 2-3 minuti per esaltarne il sapore.")
 
-    if "ananas" in ingredienti:
-        preparazione.append("🔹 **Passaggio 9:** Taglia l’ananas a cubetti e servilo come accompagnamento o usalo per dare un tocco esotico al piatto.")
-
-    preparazione.append(f"🔹 **Passaggio 10:** Impiatta tutti gli ingredienti e servi caldo. *(Tempo totale: {tempo_totale} minuti)*")
-    preparazione.append("🔹 **Passaggio 11:** Buon appetito! 🍽️")
+    preparazione.append(f"🔹 **Passaggio 11:** Impiatta tutti gli ingredienti e servi caldo. *(Tempo totale: {tempo_totale} minuti)*")
+    preparazione.append("🔹 **Passaggio 12:** Buon appetito! 🍽️")
 
     # Generazione dei valori nutrizionali
     valori_nutrizionali = {
