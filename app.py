@@ -24,14 +24,11 @@ def genera_ricetta(ingredienti):
 
     # Creazione della preparazione dettagliata
     preparazione = []
-    
+
     preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Assicuriamoci di avere tutto pronto prima di iniziare.")
 
     if "pasta" in ingredienti or "spaghetti" in ingredienti:
         preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata. Aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
-
-    if "riso" in ingredienti:
-        preparazione.append("In un pentolino, portiamo a ebollizione 500ml di acqua salata. Aggiungiamo il riso e cuociamo a fuoco medio per circa 12 minuti, mescolando di tanto in tanto.")
 
     if "ragù pomodoro" in ingredienti:
         preparazione.append("In una padella, scaldiamo un filo d'olio e aggiungiamo il ragù di pomodoro. Lasciamolo cuocere a fuoco basso per circa 10 minuti, mescolando per far amalgamare i sapori.")
@@ -42,8 +39,8 @@ def genera_ricetta(ingredienti):
     if "pecorino romano" in ingredienti:
         preparazione.append("Una volta pronta la pasta, la scoliamo e la mescoliamo direttamente nella padella con il ragù, aggiungendo il pecorino romano grattugiato e mescolando bene per amalgamare i sapori.")
 
-    if "noci" in ingredienti:
-        preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per esaltare il loro aroma e renderle croccanti.")
+    if "pan grattato" in ingredienti:
+        preparazione.append("In una padella asciutta, tostiamo il pan grattato per 2-3 minuti a fuoco medio, mescolando continuamente fino a doratura. Aggiungiamolo sopra la pasta per un tocco croccante.")
 
     preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. *(Tempo totale: {tempo_totale} minuti)*")
     preparazione.append("Buon appetito! 🍽️")
@@ -61,15 +58,17 @@ def genera_ricetta(ingredienti):
 
     return titolo_ricetta, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori_nutrizionali
 
-# Funzione per generare una variante con un tocco magico
+# Funzione per generare una variante migliorata
 def genera_ricetta_migliorata(ingredienti):
-    ingredienti_migliorati = ingredienti.copy()
-    
-    # Aggiunge un tocco magico
-    tocco_magico = ["una spolverata di pepe nero", "un pizzico di peperoncino", "un filo d’olio al tartufo", "una manciata di prezzemolo fresco"]
-    extra = random.choice(tocco_magico)
+    titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori = genera_ricetta(ingredienti)
 
-    return genera_ricetta(ingredienti_migliorati) + (extra,)
+    # Variante con metodo di cottura leggermente diverso
+    preparazione.append("VARIANTE: Dopo aver scolato la pasta, facciamola saltare per 2 minuti direttamente nella padella con il ragù e il guanciale per farla insaporire meglio.")
+
+    # Aggiunta di un tocco speciale
+    preparazione.append("Per un ulteriore tocco di sapore, aggiungiamo un pizzico di pepe nero macinato fresco prima di servire.")
+
+    return titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori
 
 # Streamlit UI
 st.title("🥗 Generatore di Ricette High-Protein per Atleti")
@@ -81,13 +80,9 @@ if st.button("🔎 Genera Ricetta"):
     if ingredienti_input:
         lista_ingredienti = [i.strip().lower() for i in ingredienti_input.split(",")]
 
-        # Genera Ricetta Base
         titolo_base, difficolta_base, tempo_preparazione_base, tempo_cottura_base, tempo_totale_base, quantita_base, istruzioni_base, valori_base = genera_ricetta(lista_ingredienti)
+        titolo_variante, difficolta_variante, tempo_preparazione_variante, tempo_cottura_variante, tempo_totale_variante, quantita_variante, istruzioni_variante, valori_variante = genera_ricetta_migliorata(lista_ingredienti)
 
-        # Genera Ricetta Migliorata con un tocco in più
-        titolo_variante, difficolta_variante, tempo_preparazione_variante, tempo_cottura_variante, tempo_totale_variante, quantita_variante, istruzioni_variante, valori_variante, extra_variante = genera_ricetta_migliorata(lista_ingredienti)
-
-        # Mostra Ricetta Base
         st.subheader(f"🍽️ **{titolo_base}**")
         st.write(f"⏳ **Preparazione:** {tempo_preparazione_base} min | 🔥 **Cottura:** {tempo_cottura_base} min | ⭐ **Difficoltà:** {difficolta_base}")
         st.subheader("📌 **Ingredienti:**")
@@ -104,7 +99,7 @@ if st.button("🔎 Genera Ricetta"):
         st.subheader(f"✨ **{titolo_variante} (Variante con Tocco Magico)**")
         for passo in istruzioni_variante:
             st.write(passo)
-        st.write(f"👉 **Tocco Magico:** {extra_variante}")
 
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
+
