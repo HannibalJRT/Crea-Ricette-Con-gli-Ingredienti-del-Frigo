@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# Funzione per calcolare la difficoltà in base al tempo totale
+# Funzione per calcolare la difficoltà della ricetta
 def calcola_difficolta(tempo_totale):
     if tempo_totale < 15:
         return "Facile"
@@ -10,7 +10,7 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per generare la ricetta in base agli ingredienti forniti dall'utente
+# Funzione per creare una ricetta realistica basata sugli ingredienti
 def genera_ricetta(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     
@@ -22,32 +22,35 @@ def genera_ricetta(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
-    # Preparazione dettagliata basata sugli ingredienti forniti
-    preparazione = [
-        f"🔹 **Passaggio 1:** Prepara tutti gli ingredienti: {', '.join(ingredienti)}.",
-        "🔹 **Passaggio 2:** Lava e taglia gli ingredienti se necessario.",
-        "🔹 **Passaggio 3:** Scalda una padella con un filo d'olio a fuoco medio."
-    ]
+    # Generazione della preparazione dettagliata
+    preparazione = [f"🔹 **Passaggio 1:** Prepara gli ingredienti: {', '.join(ingredienti)}."]
     
-    if "carne" in ingredienti:
-        preparazione.append("🔹 **Passaggio 4:** Cuoci la carne per 5-7 minuti per lato fino a doratura.")
+    if "pollo" in ingredienti or "carne" in ingredienti:
+        preparazione.append("🔹 **Passaggio 2:** Taglia la carne a cubetti e marinala con sale, pepe e spezie a piacere.")
+        preparazione.append("🔹 **Passaggio 3:** Scalda una padella con un filo d'olio e cuoci il pollo per 7-10 minuti fino a doratura.")
 
     if "pesce" in ingredienti:
-        preparazione.append("🔹 **Passaggio 5:** Condisci il pesce con sale, pepe e limone e cuocilo per 4-5 minuti per lato.")
+        preparazione.append("🔹 **Passaggio 2:** Condisci il pesce con sale, pepe e limone e cuocilo in padella per 4-5 minuti per lato.")
 
     if "riso" in ingredienti:
-        preparazione.append("🔹 **Passaggio 6:** Cuoci il riso in acqua bollente per circa 12 minuti e scolalo.")
+        preparazione.append("🔹 **Passaggio 4:** Porta a ebollizione 500ml di acqua salata, aggiungi il riso e cuoci per 12 minuti. Scola e lascia riposare.")
 
     if "pasta" in ingredienti:
-        preparazione.append("🔹 **Passaggio 7:** Cuoci la pasta in acqua salata per il tempo indicato.")
+        preparazione.append("🔹 **Passaggio 5:** Porta a ebollizione abbondante acqua salata e cuoci la pasta per il tempo indicato sulla confezione.")
 
-    if "verdure" in ingredienti:
-        preparazione.append("🔹 **Passaggio 8:** Salta le verdure in padella per 5 minuti fino a renderle croccanti.")
+    if "verdure" in ingredienti or "finocchio" in ingredienti or "zucchine" in ingredienti:
+        preparazione.append("🔹 **Passaggio 6:** Taglia le verdure a fettine sottili e saltale in padella con olio d'oliva per 5 minuti.")
 
-    if "avocado" in ingredienti:
-        preparazione.append("🔹 **Passaggio 9:** Schiaccia l’avocado con una forchetta, aggiungendo sale, limone e pepe.")
+    if "burro" in ingredienti:
+        preparazione.append("🔹 **Passaggio 7:** Sciogli il burro in padella a fuoco basso e usalo per insaporire gli altri ingredienti.")
 
-    preparazione.append(f"🔹 **Passaggio 10:** Impiatta e servi caldo. *(Tempo totale: {tempo_totale} minuti)*")
+    if "pane" in ingredienti:
+        preparazione.append("🔹 **Passaggio 8:** Tosta il pane in forno per 5 minuti o in padella fino a doratura.")
+
+    if "ananas" in ingredienti:
+        preparazione.append("🔹 **Passaggio 9:** Taglia l’ananas a cubetti e servilo come accompagnamento o usalo per dare un tocco esotico al piatto.")
+
+    preparazione.append(f"🔹 **Passaggio 10:** Impiatta tutti gli ingredienti e servi caldo. *(Tempo totale: {tempo_totale} minuti)*")
     preparazione.append("🔹 **Passaggio 11:** Buon appetito! 🍽️")
 
     # Generazione dei valori nutrizionali
@@ -63,7 +66,7 @@ def genera_ricetta(ingredienti):
 
     return titolo_ricetta, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori_nutrizionali
 
-# Funzione per generare la ricetta migliorata con ingredienti extra
+# Funzione per creare la variante con ingredienti extra
 def genera_ricetta_migliorata(ingredienti):
     varianti = {
         "pesce": "filetto di salmone",
