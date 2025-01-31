@@ -1,6 +1,5 @@
 import streamlit as st
 import random
-import openai
 
 # Funzione per calcolare la difficoltà in base al tempo totale
 def calcola_difficolta(tempo_totale):
@@ -14,20 +13,6 @@ def calcola_difficolta(tempo_totale):
 # Lista di ingredienti che non devono essere lavati
 ingredienti_non_lavabili = ["pasta", "riso", "formaggio", "ricotta", "pecorino", "parmigiano", "guanciale", "pesto"]
 
-# Funzione per cercare una ricetta simile con GPT
-def cerca_ricetta_simile(ingredienti):
-    prompt = f"Trova una ricetta italiana che utilizzi questi ingredienti: {', '.join(ingredienti)}. Scrivi il nome della ricetta, la preparazione dettagliata passo dopo passo e il metodo di cottura."
-    
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=500
-        )
-        return response["choices"][0]["message"]["content"]
-    except Exception as e:
-        return None
-
 # Funzione per generare una ricetta ben strutturata
 def genera_ricetta(ingredienti):
     titolo_ricetta = f"Ricetta con {', '.join(ingredienti).capitalize()}"
@@ -40,43 +25,38 @@ def genera_ricetta(ingredienti):
     # Generazione delle quantità per ogni ingrediente
     quantita = {ingrediente: f"{random.randint(50, 300)}g" for ingrediente in ingredienti}
 
-    # Cerca una ricetta esistente
-    ricetta_simile = cerca_ricetta_simile(ingredienti)
+    # Struttura della preparazione dettagliata e logica
+    preparazione = []
 
-    if ricetta_simile:
-        preparazione = ricetta_simile.split("\n")
+    # Controllo se gli ingredienti necessitano di lavaggio
+    if any(ingr not in ingredienti_non_lavabili for ingr in ingredienti):
+        preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Laviamo e prepariamo gli ingredienti prima di iniziare la cottura.")
     else:
-        # Se non trova una ricetta, ne genera una realistica
-        preparazione = []
-        
-        if any(ingr in ingredienti for ingr in ingredienti_non_lavabili):
-            preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Prepariamo tutti gli ingredienti necessari.")
-        else:
-            preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Laviamo e prepariamo tutti gli ingredienti prima di iniziare la cottura.")
+        preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Prepariamo tutti gli ingredienti necessari.")
 
-        if "spaghetti" in ingredienti or "pasta" in ingredienti:
-            preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata. Aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
+    if "pasta" in ingredienti or "spaghetti" in ingredienti:
+        preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata. Aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
 
-        if "riso" in ingredienti:
-            preparazione.append("In un pentolino, portiamo a ebollizione 500ml di acqua salata. Aggiungiamo il riso e cuociamo a fuoco medio per circa 12 minuti, mescolando di tanto in tanto.")
+    if "riso" in ingredienti:
+        preparazione.append("In un pentolino, portiamo a ebollizione 500ml di acqua salata. Aggiungiamo il riso e cuociamo a fuoco medio per circa 12 minuti, mescolando di tanto in tanto.")
 
-        if "ragù pomodoro" in ingredienti:
-            preparazione.append("In una padella, scaldiamo un filo d'olio e aggiungiamo il ragù di pomodoro. Lasciamolo cuocere a fuoco basso per circa 10 minuti, mescolando per far amalgamare i sapori.")
+    if "ragù pomodoro" in ingredienti:
+        preparazione.append("In una padella, scaldiamo un filo d'olio e aggiungiamo il ragù di pomodoro. Lasciamolo cuocere a fuoco basso per circa 10 minuti, mescolando per far amalgamare i sapori.")
 
-        if "carne" in ingredienti:
-            preparazione.append("Tagliamo la carne a cubetti e condiamola con sale, pepe e spezie a piacere. Scaldiamo una padella con un filo d’olio e cuociamo la carne per circa 7-10 minuti fino a doratura.")
+    if "carne" in ingredienti:
+        preparazione.append("Tagliamo la carne a cubetti e condiamola con sale, pepe e spezie a piacere. Scaldiamo una padella con un filo d’olio e cuociamo la carne per circa 7-10 minuti fino a doratura.")
 
-        if "pesce" in ingredienti:
-            preparazione.append("Condiamo il pesce con sale, pepe e limone. Lo cuociamo in padella con un filo d'olio per circa 4-5 minuti per lato o al forno a 180°C per 15 minuti.")
+    if "pesce" in ingredienti:
+        preparazione.append("Condiamo il pesce con sale, pepe e limone. Lo cuociamo in padella con un filo d'olio per circa 4-5 minuti per lato o al forno a 180°C per 15 minuti.")
 
-        if "radicchio" in ingredienti or "verdure" in ingredienti:
-            preparazione.append("Tagliamo il radicchio e le verdure a strisce sottili. Le saltiamo in padella con un filo d'olio d'oliva per 5 minuti a fuoco medio, fino a quando saranno morbide ma ancora croccanti.")
+    if "radicchio" in ingredienti or "verdure" in ingredienti:
+        preparazione.append("Tagliamo il radicchio e le verdure a strisce sottili. Le saltiamo in padella con un filo d'olio d'oliva per 5 minuti a fuoco medio, fino a quando saranno morbide ma ancora croccanti.")
 
-        if "noci" in ingredienti:
-            preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per esaltare il loro aroma e renderle croccanti.")
+    if "noci" in ingredienti:
+        preparazione.append("Le noci possono essere leggermente tostate in padella per 2-3 minuti, mescolandole continuamente per esaltare il loro aroma e renderle croccanti.")
 
-        preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. *(Tempo totale: {tempo_totale} minuti)*")
-        preparazione.append("Buon appetito! 🍽️")
+    preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. *(Tempo totale: {tempo_totale} minuti)*")
+    preparazione.append("Buon appetito! 🍽️")
 
     # Generazione dei valori nutrizionali
     valori_nutrizionali = {
