@@ -18,7 +18,7 @@ def ingredienti_validi(ingredienti):
     # Se non c'è almeno un ingrediente base riconosciuto, consideriamo la combinazione non valida.
     return len(matching_base) > 0
 
-# Funzione per generare la ricetta base (se gli ingredienti sono validi)
+# Funzione per generare la ricetta base
 def genera_ricetta_base(ingredienti):
     titolo = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     tempo_preparazione = random.randint(5, 15)
@@ -67,19 +67,34 @@ def genera_ricetta_base(ingredienti):
 
     return titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori
 
+# Funzione per generare la variante
+def genera_ricetta_variante(ingredienti):
+    titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_base, valori = genera_ricetta_base(ingredienti)
+    preparazione_variante = preparazione_base.copy()
+    # Aggiungere un tocco magico nella variante
+    preparazione_variante.append("VARIANTE: Spolvera con cannella e aggiungi un cucchiaino di miele per una dolcezza naturale.")
+    preparazione_variante.append("Oppure aggiungi una manciata di cioccolato fondente tritato per un tocco goloso.")
+    titolo_variante = f"{titolo} (Variante con Tocco Magico)"
+    
+    return titolo_variante, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_variante, valori
+
 # Interfaccia Streamlit
 st.title("🥗 Generatore di Ricette High-Protein per Atleti")
 st.write("Inserisci gli ingredienti che hai a disposizione:")
 
 ingredienti_input = st.text_input("🔍 Inserisci gli ingredienti (separati da virgola)")
+modalita = st.radio("Scegli la modalità:", ("Ricetta Base", "Variante con Tocco Magico"))
 
 if st.button("🔎 Genera Ricetta"):
     if ingredienti_input:
         lista_ingredienti = [i.strip().lower() for i in ingredienti_input.split(",")]
         
         if ingredienti_validi(lista_ingredienti):
-            # Generare la ricetta
-            titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_base(lista_ingredienti)
+            # Generare la ricetta in base alla modalità
+            if modalita == "Ricetta Base":
+                titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_base(lista_ingredienti)
+            else:
+                titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_variante(lista_ingredienti)
             
             # Mostrare la ricetta
             st.subheader(f"🍽️ **{titolo}**")
@@ -98,4 +113,3 @@ if st.button("🔎 Genera Ricetta"):
             st.warning("Sembra che questi ingredienti non si combinino facilmente in una ricetta. Ti consiglio di provare con un set di ingredienti più comuni oppure aggiungere un ingrediente di base come riso, pasta o un’altra fonte di proteine.")
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
-
