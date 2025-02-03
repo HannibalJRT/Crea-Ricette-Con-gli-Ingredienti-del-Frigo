@@ -15,12 +15,17 @@ def ingredienti_validi(ingredienti):
     # Regola più ampia: consideriamo validi sia gli ingredienti di base che le combinazioni dolci
     ingredienti_di_base = {"pasta", "riso", "pane", "carne", "pesce", "uova", "latte", "farina", "zucchero", "verdure"}
     ingredienti_dolci = {"banana", "fichi", "yogurt", "miele", "cioccolato", "avena", "fragole"}
-    
+    ingredienti_non_adatti = {"radicchio", "aglio", "cipolla"}
+
     matching_base = [i for i in ingredienti if i in ingredienti_di_base]
     matching_dolci = [i for i in ingredienti if i in ingredienti_dolci]
-    
+    matching_non_adatti = [i for i in ingredienti if i in ingredienti_non_adatti]
+
+    # Se ci sono ingredienti non adatti, avvisiamo
+    if matching_non_adatti:
+        return False, matching_non_adatti
     # È valido se c'è almeno un ingrediente di base o almeno una combinazione dolce riconosciuta
-    return len(matching_base) > 0 or len(matching_dolci) > 0
+    return (len(matching_base) > 0 or len(matching_dolci) > 0), None
 
 # Funzione per generare la ricetta base
 def genera_ricetta_base(ingredienti):
@@ -97,7 +102,8 @@ if st.button("🔎 Genera Ricetta"):
     if ingredienti_input:
         lista_ingredienti = [i.strip().lower() for i in ingredienti_input.split(",")]
         
-        if ingredienti_validi(lista_ingredienti):
+        valido, non_adatti = ingredienti_validi(lista_ingredienti)
+        if valido:
             # Generare la ricetta in base alla modalità
             if modalita == "Ricetta Base":
                 titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_base(lista_ingredienti)
@@ -116,8 +122,12 @@ if st.button("🔎 Genera Ricetta"):
             st.subheader("🔥 Valori Nutrizionali:")
             for chiave, valore in valori.items():
                 st.write(f"- {chiave}: {valore}")
+        elif non_adatti:
+            # Ingredienti non adatti trovati
+            st.warning(f"Attenzione! Questi ingredienti non sembrano combinarsi bene: {', '.join(non_adatti)}. Prova a sostituirli o rimuoverli.")
         else:
             # Nessuna ricetta sensata trovata
             st.warning("Sembra che questi ingredienti non si combinino facilmente in una ricetta. Ti consiglio di provare con un set di ingredienti più comuni oppure aggiungere un ingrediente di base come riso, pasta o un’altra fonte di proteine.")
     else:
         st.warning("Inserisci gli ingredienti per generare una ricetta.")
+
