@@ -12,11 +12,15 @@ def calcola_difficolta(tempo_totale):
 
 # Funzione per valutare la plausibilità della combinazione di ingredienti
 def ingredienti_validi(ingredienti):
-    # Regola molto semplice: se gli ingredienti sono molto diversi e non si adattano a una preparazione comune, segnaliamo un problema.
+    # Regola più ampia: consideriamo validi sia gli ingredienti di base che le combinazioni dolci
     ingredienti_di_base = {"pasta", "riso", "pane", "carne", "pesce", "uova", "latte", "farina", "zucchero", "verdure"}
+    ingredienti_dolci = {"banana", "fichi", "yogurt", "miele", "cioccolato", "avena", "fragole"}
+    
     matching_base = [i for i in ingredienti if i in ingredienti_di_base]
-    # Se non c'è almeno un ingrediente base riconosciuto, consideriamo la combinazione non valida.
-    return len(matching_base) > 0
+    matching_dolci = [i for i in ingredienti if i in ingredienti_dolci]
+    
+    # È valido se c'è almeno un ingrediente di base o almeno una combinazione dolce riconosciuta
+    return len(matching_base) > 0 or len(matching_dolci) > 0
 
 # Funzione per generare la ricetta base
 def genera_ricetta_base(ingredienti):
@@ -35,6 +39,10 @@ def genera_ricetta_base(ingredienti):
             preparazione.append("Cuoci l’avena con 250ml di latte o acqua a fuoco basso fino a ottenere una consistenza cremosa.")
         elif "banana" in ingr:
             preparazione.append("Sbuccia la banana e schiacciala con una forchetta fino a ottenere una purea liscia. Incorporala nel composto.")
+        elif "fichi" in ingr:
+            preparazione.append("Taglia i fichi in pezzi e falli caramellare in padella con un cucchiaino di miele per un tocco dolce.")
+        elif "yogurt" in ingr:
+            preparazione.append("Mescola lo yogurt con un pizzico di zucchero e un po’ di succo di limone per una crema fresca.")
         elif "frutta secca" in ingr:
             preparazione.append("Trita grossolanamente la frutta secca e tostala in padella per 2-3 minuti per esaltarne il sapore.")
         elif "noci" in ingr:
