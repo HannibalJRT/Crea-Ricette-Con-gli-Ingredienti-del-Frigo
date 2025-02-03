@@ -19,25 +19,34 @@ def genera_ricetta_base(ingredienti):
     difficolta = calcola_difficolta(tempo_totale)
     quantita = {ingr: f"{random.randint(50,300)}g" for ingr in ingredienti}
 
-    preparazione = []
-    preparazione.append(f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Assicuriamoci di avere tutto pronto prima di iniziare.")
-    
-    if "pasta" in ingredienti or "spaghetti" in ingredienti:
-        preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata, aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
-    if "riso" in ingredienti:
-        preparazione.append("In un pentolino, portiamo a ebollizione 500 ml di acqua salata, aggiungiamo il riso e lo cuociamo a fuoco medio per circa 12 minuti, quindi lo scoliamo.")
-    if "ricotta" in ingredienti:
-        preparazione.append("In una ciotola, mescoliamo la ricotta con un pizzico di sale e pepe, rendendola cremosa e pronta per essere spalmata o servita come guarnizione.")
-    if "pane" in ingredienti:
-        preparazione.append("Tostiamo il pane in forno a 180°C per 5 minuti fino a renderlo croccante, oppure lo doriamo in padella con un filo d'olio.")
-    if "belga" in ingredienti or "verdure" in ingredienti:
-        preparazione.append("Tagliamo il belga a strisce sottili e lo saltiamo in padella con un filo d'olio d'oliva per 3-4 minuti, fino a quando sarà tenero ma ancora croccante.")
-    if "grana" in ingredienti:
-        preparazione.append("Grattugiamo il grana finemente e lo spargiamo sopra il piatto finale come condimento.")
+    # Iniziamo a preparare i passaggi
+    preparazione = [f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Assicuriamoci di avere tutto pronto prima di iniziare."]
 
-    preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. *(Tempo totale: {tempo_totale} minuti)*")
-    preparazione.append("Buon appetito! 🍽️")
-    
+    for ingr in ingredienti:
+        if "avena" in ingr:
+            preparazione.append("Cuoci l’avena con 250ml di latte o acqua a fuoco basso fino a ottenere una consistenza cremosa.")
+        elif "banana" in ingr:
+            preparazione.append("Sbuccia la banana e schiacciala con una forchetta fino a ottenere una purea liscia. Incorporala nel composto.")
+        elif "frutta secca" in ingr:
+            preparazione.append("Trita grossolanamente la frutta secca e tostala in padella per 2-3 minuti per esaltarne il sapore.")
+        elif "noci" in ingr:
+            preparazione.append("Tosta le noci leggermente in padella per intensificarne l’aroma.")
+        elif "pane" in ingr:
+            preparazione.append("Tosta il pane in forno a 180°C per 5 minuti, oppure doralo in padella con un filo d’olio.")
+        elif "ricotta" in ingr:
+            preparazione.append("Mescola la ricotta con un pizzico di sale e pepe per una crema morbida e gustosa.")
+        elif "belga" in ingr:
+            preparazione.append("Taglia il belga a strisce e saltalo in padella con un filo d’olio d’oliva per 3-4 minuti.")
+        elif "grana" in ingr:
+            preparazione.append("Grattugia finemente il grana e spargilo sul piatto finito.")
+        else:
+            preparazione.append(f"Prepara {ingr} a tuo piacere, quindi incorporalo nel piatto finale.")
+
+    # Passaggio finale
+    preparazione.append("Impiattiamo il tutto con cura e serviamo caldo.")
+    preparazione.append(f"Tempo totale: {tempo_totale} minuti.")
+
+    # Generazione valori nutrizionali
     valori = {
         "Calorie": random.randint(400, 800),
         "Proteine": random.randint(30, 60),
@@ -47,14 +56,16 @@ def genera_ricetta_base(ingredienti):
         "Zuccheri": random.randint(2, 10),
         "Sale": round(random.uniform(0.5, 2), 1)
     }
-    
+
     return titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori
 
 # Funzione per generare la variante
 def genera_ricetta_variante(ingredienti):
     titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_base, valori = genera_ricetta_base(ingredienti)
     preparazione_variante = preparazione_base.copy()
-    preparazione_variante.append("Come variante, possiamo aggiungere un cucchiaio di miele sopra il pane tostato e una spolverata di cannella per un aroma unico.")
+    # Aggiungere un tocco magico nella variante
+    preparazione_variante.append("VARIANTE: Spolvera con cannella e aggiungi un cucchiaino di miele per una dolcezza naturale.")
+    preparazione_variante.append("Oppure aggiungi una manciata di cioccolato fondente tritato per un tocco goloso.")
     titolo_variante = f"{titolo} (Variante con Tocco Magico)"
     
     return titolo_variante, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_variante, valori
@@ -75,6 +86,7 @@ if st.button("🔎 Genera Ricetta"):
         else:
             titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_variante(lista_ingredienti)
         
+        # Visualizzare la ricetta
         st.subheader(f"🍽️ **{titolo}**")
         st.write(f"⏳ Preparazione: {tp} min | 🔥 Cottura: {tc} min | ⭐ Difficoltà: {difficolta}")
         st.subheader("📌 Ingredienti:")
