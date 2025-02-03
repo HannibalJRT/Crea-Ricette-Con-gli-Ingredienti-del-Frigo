@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# Funzione per calcolare la difficoltà in base al tempo totale
+# Funzione per calcolare la difficoltà
 def calcola_difficolta(tempo_totale):
     if tempo_totale < 15:
         return "Facile"
@@ -10,7 +10,7 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per generare una ricetta base, utilizzando esclusivamente gli ingredienti forniti dall'utente
+# Funzione per generare la ricetta base
 def genera_ricetta_base(ingredienti):
     titolo = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     tempo_preparazione = random.randint(5, 15)
@@ -26,22 +26,16 @@ def genera_ricetta_base(ingredienti):
         preparazione.append("Portiamo a ebollizione una pentola con abbondante acqua salata, aggiungiamo la pasta e cuociamo per il tempo indicato sulla confezione, mescolando occasionalmente.")
     if "riso" in ingredienti:
         preparazione.append("In un pentolino, portiamo a ebollizione 500 ml di acqua salata, aggiungiamo il riso e lo cuociamo a fuoco medio per circa 12 minuti, quindi lo scoliamo.")
-    if "ragù pomodoro" in ingredienti:
-        preparazione.append("In una padella, scaldiamo un filo d'olio e aggiungiamo il ragù di pomodoro, lasciandolo cuocere a fuoco basso per circa 10 minuti per far amalgamare i sapori.")
-    if "guanciale" in ingredienti:
-        preparazione.append("Tagliamo il guanciale a striscioline sottili, lo facciamo rosolare in padella a fuoco medio senza aggiungere olio, fino a renderlo croccante, e poi lo mettiamo da parte.")
-    if "carne" in ingredienti:
-        preparazione.append("Tagliamo la carne a cubetti, condiscendola con sale, pepe e spezie, e la cuociamo in padella con un filo d’olio per circa 7-10 minuti fino a doratura.")
-    if "pesce" in ingredienti:
-        preparazione.append("Condiamo il pesce con sale, pepe e limone, e lo cuociamo in padella con un filo d'olio per circa 4-5 minuti per lato, oppure al forno a 180°C per 15 minuti.")
-    if "radicchio" in ingredienti or "verdure" in ingredienti or "zucchine" in ingredienti:
-        preparazione.append("Tagliamo il radicchio o le verdure a strisce sottili e le saltiamo in padella con un filo d'olio d'oliva per circa 5 minuti, fino a renderle tenere ma croccanti.")
-    if "avocado" in ingredienti:
-        preparazione.append("Sbucciamo l'avocado, lo schiacciamo con una forchetta e lo condiamo con sale, succo di limone e pepe per ottenere una crema morbida.")
-    if "noci" in ingredienti:
-        preparazione.append("Le noci vengono tostate in padella per 2-3 minuti, mescolandole continuamente per esaltarne il sapore e renderle croccanti.")
+    if "ricotta" in ingredienti:
+        preparazione.append("In una ciotola, mescoliamo la ricotta con un pizzico di sale e pepe, rendendola cremosa e pronta per essere spalmata o servita come guarnizione.")
+    if "pane" in ingredienti:
+        preparazione.append("Tostiamo il pane in forno a 180°C per 5 minuti fino a renderlo croccante, oppure lo doriamo in padella con un filo d'olio.")
+    if "belga" in ingredienti or "verdure" in ingredienti:
+        preparazione.append("Tagliamo il belga a strisce sottili e lo saltiamo in padella con un filo d'olio d'oliva per 3-4 minuti, fino a quando sarà tenero ma ancora croccante.")
+    if "grana" in ingredienti:
+        preparazione.append("Grattugiamo il grana finemente e lo spargiamo sopra il piatto finale come condimento.")
 
-    preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. (Tempo totale: {tempo_totale} minuti)")
+    preparazione.append(f"Impiattiamo il tutto con cura e serviamo caldo. *(Tempo totale: {tempo_totale} minuti)*")
     preparazione.append("Buon appetito! 🍽️")
     
     valori = {
@@ -56,13 +50,11 @@ def genera_ricetta_base(ingredienti):
     
     return titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori
 
+# Funzione per generare la variante
 def genera_ricetta_variante(ingredienti):
-    # Genera la ricetta base
     titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_base, valori = genera_ricetta_base(ingredienti)
-    # Crea una variante aggiungendo passaggi extra, senza rimuovere quelli base
     preparazione_variante = preparazione_base.copy()
-    preparazione_variante.append("Come variante, dopo aver scolato la pasta, la facciamo saltare in padella per 2 minuti con un filo d'olio e un pizzico di pepe nero per insaporirla ulteriormente.")
-    preparazione_variante.append("Infine, aggiungiamo un cucchiaino di miele per un tocco di dolcezza naturale e spolveriamo con cannella per un aroma unico.")
+    preparazione_variante.append("Come variante, possiamo aggiungere un cucchiaio di miele sopra il pane tostato e una spolverata di cannella per un aroma unico.")
     titolo_variante = f"{titolo} (Variante con Tocco Magico)"
     
     return titolo_variante, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_variante, valori
