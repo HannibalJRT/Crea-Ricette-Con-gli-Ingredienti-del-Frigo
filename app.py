@@ -10,7 +10,7 @@ def calcola_difficolta(tempo_totale):
     else:
         return "Difficile"
 
-# Funzione per valutare la plausibilità della combinazione di ingredienti
+# Funzione per validare la combinazione degli ingredienti
 def ingredienti_validi(ingredienti):
     ingredienti_di_base = {"pasta", "riso", "pane", "carne", "pesce", "uova", "latte", "farina", "zucchero", "verdure"}
     ingredienti_dolci = {"banana", "fichi", "yogurt", "miele", "cioccolato", "avena", "fragole"}
