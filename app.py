@@ -1,107 +1,90 @@
 import streamlit as st
 import random
 
-# Funzione per calcolare la difficoltà
-def calcola_difficolta(tempo_totale):
-    if tempo_totale < 15:
-        return "Facile"
-    elif 15 <= tempo_totale <= 30:
-        return "Medio"
-    else:
-        return "Difficile"
-
-# Funzione per validare la combinazione degli ingredienti
-def ingredienti_validi(ingredienti):
-    ingredienti_di_base = {"pasta", "riso", "pane", "carne", "pesce", "uova", "latte", "farina", "zucchero", "verdure"}
-    ingredienti_dolci = {"banana", "fichi", "yogurt", "miele", "cioccolato", "avena", "fragole"}
-    ingredienti_non_adatti = {"radicchio"}
-
-    matching_base = [i for i in ingredienti if i in ingredienti_di_base]
-    matching_dolci = [i for i in ingredienti if i in ingredienti_dolci]
-    matching_non_adatti = [i for i in ingredienti if i in ingredienti_non_adatti]
-
-    if matching_non_adatti:
-        return False, matching_non_adatti
-    return (len(matching_base) > 0 or len(matching_dolci) > 0), None
-
-# Funzione per generare la ricetta base
-def genera_ricetta_base(ingredienti):
+# Funzione per generare una ricetta base
+def genera_ricetta(ingredienti):
+    # Controlliamo se gli ingredienti sono accettabili (nel tuo caso, implementa qui logiche più complesse)
+    if "radicchio" in ingredienti:
+        return None, "Non è stato possibile creare una ricetta sensata con gli ingredienti forniti. Rimuovi il radicchio e prova di nuovo."
+    
+    # Generiamo una ricetta casuale e i valori nutrizionali
     titolo = f"Ricetta con {', '.join(ingredienti).capitalize()}"
     tempo_preparazione = random.randint(5, 15)
     tempo_cottura = random.randint(10, 30)
-    tempo_totale = tempo_preparazione + tempo_cottura
-    difficolta = calcola_difficolta(tempo_totale)
-    quantita = {ingr: f"{random.randint(50,300)}g" for ingr in ingredienti}
+    difficolta = "Medio" if tempo_cottura < 20 else "Difficile"
 
-    preparazione = [f"Per questa ricetta utilizzeremo {', '.join(ingredienti)}. Ecco il procedimento:"]
-
-    for ingr in ingredienti:
-        if ingr == "avocado":
-            preparazione.append("Taglia l’avocado a metà, rimuovi il nocciolo, e affetta la polpa. Condisci con succo di limone e un pizzico di sale. Lascia da parte.")
-        elif ingr == "uova":
-            preparazione.append("Sbatti le uova con un pizzico di sale e pepe. Scalda una padella antiaderente e cuoci le uova strapazzate a fuoco medio per 3-5 minuti, mescolando frequentemente.")
-        elif ingr == "belga":
-            preparazione.append("Taglia il belga a strisce sottili. Scalda una padella con un filo d’olio d’oliva, aggiungi il belga e saltalo per 3-4 minuti, finché diventa tenero ma ancora croccante.")
-        elif ingr == "noci":
-            preparazione.append("Tosta le noci in padella per 2-3 minuti a fuoco medio, mescolando spesso. Questo intensifica il loro sapore e le rende croccanti.")
-        elif ingr == "pomodorini":
-            preparazione.append("Lava i pomodorini e tagliali a metà. Saltali in padella con un filo d’olio d’oliva per circa 5 minuti, fino a quando rilasciano il loro succo.")
-        else:
-            preparazione.append(f"Prepara {ingr} come preferisci e incorpora nel piatto.")
-
-    preparazione.append("Quando tutti gli ingredienti sono pronti, assembla il piatto. Disponi l’avocado affettato come base, aggiungi le uova strapazzate, il belga saltato, le noci tostate e i pomodorini caldi sopra. Aggiungi un filo d’olio a crudo e, se preferisci, un pizzico di pepe nero macinato fresco.")
-    preparazione.append(f"Tempo totale di preparazione: {tempo_totale} minuti.")
-
-    valori = {
-        "Calorie": random.randint(400, 800),
-        "Proteine": random.randint(30, 60),
+    valori_nutrizionali = {
+        "Calorie": random.randint(300, 700),
+        "Proteine": random.randint(20, 50),
         "Grassi": random.randint(10, 30),
         "Carboidrati": random.randint(40, 100),
         "Fibre": random.randint(5, 15),
-        "Zuccheri": random.randint(2, 10),
-        "Sale": round(random.uniform(0.5, 2), 1)
+        "Zuccheri": random.randint(2, 8),
+        "Sale": round(random.uniform(0.2, 1.5), 2),
     }
 
-    return titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione, valori
+    # Procedimento della ricetta
+    procedimento = [
+        "Preparare gli ingredienti sul piano di lavoro.",
+        "Tagliare a cubetti la carne e marinarla per 10 minuti.",
+        "Scaldare l’olio in una padella e cuocere la carne a fuoco medio per 7 minuti.",
+        "Saltare le verdure in padella con poco olio per 5 minuti.",
+        "Aggiungere un pizzico di sale e pepe.",
+        "Impiattare e servire caldo."
+    ]
 
-# Funzione per generare la variante
-def genera_ricetta_variante(ingredienti):
-    titolo, difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_base, valori = genera_ricetta_base(ingredienti)
-    preparazione_variante = preparazione_base.copy()
-    preparazione_variante.append("VARIANTE: Aggiungi un pizzico di peperoncino e una manciata di parmigiano grattugiato per un sapore più intenso.")
-    return f"{titolo} (Variante)", difficolta, tempo_preparazione, tempo_cottura, tempo_totale, quantita, preparazione_variante, valori
+    return {
+        "titolo": titolo,
+        "tempo_preparazione": tempo_preparazione,
+        "tempo_cottura": tempo_cottura,
+        "difficolta": difficolta,
+        "ingredienti": ingredienti,
+        "valori_nutrizionali": valori_nutrizionali,
+        "procedimento": procedimento
+    }, None
 
-# Interfaccia Streamlit migliorata
-st.title("🥗 Generatore di Ricette High-Protein")
-st.write("Inserisci gli ingredienti che hai a disposizione per generare una ricetta adatta a uno stile di vita attivo e bilanciato.")
+# Funzione per generare una variante della ricetta
+def genera_variante_ricetta(ricetta_base):
+    variante = ricetta_base.copy()
+    variante["titolo"] += " (Variante con Tocco Magico)"
+    variante["procedimento"].append("Aggiungere una spolverata di formaggio grattugiato.")
+    variante["valori_nutrizionali"]["Calorie"] += 50
+    return variante
 
-ingredienti_input = st.text_input("🔍 Inserisci gli ingredienti (separati da virgola)")
-modalita = st.radio("Scegli la modalità:", ("Ricetta Base", "Variante con Tocco Magico"))
+# Interfaccia utente con Streamlit
+st.title("🍽️ Generatore di Ricette Personalizzate")
 
-if st.button("🔎 Genera Ricetta"):
-    if ingredienti_input:
-        lista_ingredienti = [i.strip().lower() for i in ingredienti_input.split(",")]
-        valido, non_adatti = ingredienti_validi(lista_ingredienti)
-        if valido:
-            if modalita == "Ricetta Base":
-                titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_base(lista_ingredienti)
-            else:
-                titolo, difficolta, tp, tc, tt, quantita, preparazione, valori = genera_ricetta_variante(lista_ingredienti)
-            
-            st.subheader(f"🍽️ **{titolo}**")
-            st.write(f"⏳ Preparazione: {tp} min | 🔥 Cottura: {tc} min | ⭐ Difficoltà: {difficolta}")
-            st.subheader("📌 Ingredienti:")
-            for ingr, q in quantita.items():
-                st.write(f"- {ingr.capitalize()}: {q}")
-            st.subheader("📌 Preparazione:")
-            for passo in preparazione:
-                st.write(passo)
-            st.subheader("🔥 Valori Nutrizionali:")
-            for chiave, valore in valori.items():
-                st.write(f"- {chiave}: {valore}")
-        elif non_adatti:
-            st.warning(f"Attenzione! Questi ingredienti non sembrano combinarsi bene: {', '.join(non_adatti)}. Prova a sostituirli o rimuoverli.")
+# Input: ingredienti
+ingredienti_input = st.text_input("Inserisci gli ingredienti disponibili (separati da virgola):")
+if not ingredienti_input:
+    st.warning("Inserisci almeno un ingrediente.")
+else:
+    ingredienti = [ingr.strip().lower() for ingr in ingredienti_input.split(",")]
+
+    # Scelta della modalità
+    modalita = st.radio("Scegli il tipo di ricetta:", ("Ricetta Base", "Ricetta con Variante"))
+
+    # Pulsante per generare la ricetta
+    if st.button("Genera Ricetta"):
+        ricetta, errore = genera_ricetta(ingredienti)
+        if errore:
+            st.error(errore)
         else:
-            st.warning("Sembra che questi ingredienti non si combinino facilmente in una ricetta. Ti consiglio di provare con un set di ingredienti più comuni.")
-    else:
-        st.warning("Inserisci gli ingredienti per generare una ricetta.")
+            # Se è selezionata la variante, generiamo una variante
+            if modalita == "Ricetta con Variante":
+                ricetta = genera_variante_ricetta(ricetta)
+            
+            # Mostriamo la ricetta
+            st.subheader(ricetta["titolo"])
+            st.write(f"**Tempo di preparazione:** {ricetta['tempo_preparazione']} minuti")
+            st.write(f"**Tempo di cottura:** {ricetta['tempo_cottura']} minuti")
+            st.write(f"**Difficoltà:** {ricetta['difficolta']}")
+            st.write("**Ingredienti:**")
+            for ingr in ricetta["ingredienti"]:
+                st.write(f"- {ingr.capitalize()}")
+            st.write("**Procedimento:**")
+            for passo in ricetta["procedimento"]:
+                st.write(f"- {passo}")
+            st.write("**Valori Nutrizionali:**")
+            for chiave, valore in ricetta["valori_nutrizionali"].items():
+                st.write(f"- {chiave}: {valore}")
