@@ -12,7 +12,6 @@ def calcola_difficolta(tempo_totale):
 
 # Funzione per generare una ricetta dettagliata
 def genera_ricetta(ingredienti):
-    # Se non ci sono ingredienti, restituiamo un messaggio di errore
     if not ingredienti:
         return None, "Non ci sono abbastanza ingredienti per creare una ricetta. Aggiungi qualcosa e riprova."
 
@@ -113,3 +112,4 @@ if st.button("Genera Ricetta"):
         st.write(variante["preparazione"])
     else:
         st.error("Non è stato possibile generare una ricetta.")
+
